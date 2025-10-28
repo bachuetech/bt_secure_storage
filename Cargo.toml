@@ -6,9 +6,9 @@ authors = ["calvarez <calvarez@bachuetech.biz>"]
 description = "A simple and lightweight Secret Vault and Encryption Library for Rust to store secrets"
 keywords = ["secrets", "storage", "cryptography"]
 categories = ["cryptography"]
-repository = "https://github.com/bachuetech/"
+repository = "https://github.com/bachuetech/bt_secure_storage.git"
 readme = "README.md"
-homepage = "https://github.com/bachuetech/"
+homepage = "https://github.com/bachuetech/bt_secure_storage"
 license = "GPL-3.0-only"
 
 [dependencies]
