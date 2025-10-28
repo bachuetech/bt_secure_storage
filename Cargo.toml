@@ -1,6 +1,6 @@
 [package]
 name = "bt_secure_storage"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 authors = ["calvarez <calvarez@bachuetech.biz>"]
 description = "A simple and lightweight Secret Vault and Encryption Library for Rust to store secrets"

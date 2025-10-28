@@ -31,6 +31,8 @@ This library provides a simple secret vault and encryption system using the whoa
 ## Version History
 * 0.1.0
     * Initial Release
+* 0.1.1
+    * Make mod public    
 
 ## License
 GPL-3.0-only

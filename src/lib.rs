@@ -1,3 +1,3 @@
 
-pub(crate) mod secure_storage;
-pub(crate) mod hashing;
+pub mod secure_storage;
+pub mod hashing;
