@@ -222,7 +222,7 @@ mod enc_dec_tests {
 
     #[test]
     fn test_encrypt_decrypt_roundtrip() {
-        build_logger("BACHUETECH", "enc_dec_tests", bt_logger::LogLevel::VERBOSE, bt_logger::LogTarget::STD_ERROR);
+        build_logger("BACHUETECH", "enc_dec_tests", bt_logger::LogLevel::VERBOSE, bt_logger::LogTarget::STD_ERROR, None);
 
         let cipher = SecretCipher::new();
         let key = "my-auth0-client-secret";
@@ -236,7 +236,7 @@ mod enc_dec_tests {
 
     #[test]
     fn test_decrypt_with_wrong_key_fails() {
-        build_logger("BACHUETECH", "enc_dec_tests", bt_logger::LogLevel::VERBOSE, bt_logger::LogTarget::STD_OUT);
+        build_logger("BACHUETECH", "enc_dec_tests", bt_logger::LogLevel::VERBOSE, bt_logger::LogTarget::STD_OUT, None);
         let cipher = SecretCipher::new();        
         let key = "correct-key";
         let wrong_key = "wrong-key";
@@ -250,7 +250,7 @@ mod enc_dec_tests {
 
     #[test]
     fn test_decrypt_outputs_different_times_success() {
-        build_logger("BACHUETECH", "enc_dec_tests", bt_logger::LogLevel::VERBOSE, bt_logger::LogTarget::STD_ERROR);
+        build_logger("BACHUETECH", "enc_dec_tests", bt_logger::LogLevel::VERBOSE, bt_logger::LogTarget::STD_ERROR, None);
         let cipher = SecretCipher::new();        
         let key = "same-key";
         let secret = "same-secret";
@@ -264,7 +264,7 @@ mod enc_dec_tests {
 
     #[test]
     fn test_decrypt_outputs_different_ciphertext_each_time() {
-        build_logger("BACHUETECH", "enc_dec_tests", bt_logger::LogLevel::VERBOSE, bt_logger::LogTarget::STD_ERROR);
+        build_logger("BACHUETECH", "enc_dec_tests", bt_logger::LogLevel::VERBOSE, bt_logger::LogTarget::STD_ERROR, None);
         let cipher = SecretCipher::new();        
         let key = "same-key";
         let secret = "same-secret";
@@ -297,7 +297,7 @@ mod secret_vault_tests {
     static INIT: Once = Once::new();
     fn ini_log() {
         INIT.call_once(|| {
-            build_logger("BACHUETECH", "UNIT TEST RUST JOB_SEEK_TRK_DX", LogLevel::VERBOSE, LogTarget::STD_ERROR );     
+            build_logger("BACHUETECH", "UNIT TEST RUST JOB_SEEK_TRK_DX", LogLevel::VERBOSE, LogTarget::STD_ERROR, None );     
         });
     }
 

@@ -34,7 +34,9 @@ This library provides a simple secret vault and encryption system using the whoa
 * 0.1.1
     * Make mod public
 * 0.1.2
-    * Make hashing functions public      
+    * Make hashing functions public 
+* 0.1.2
+    * Update dependencies         
 
 ## License
 GPL-3.0-only
