@@ -36,7 +36,9 @@ This library provides a simple secret vault and encryption system using the whoa
 * 0.1.2
     * Make hashing functions public 
 * 0.1.2
-    * Update dependencies         
+    * Update dependencies
+* 0.2.0
+    * Change to Base91 encoding from Based64 to reduce overhead in encrypt_secret
 
 ## License
 GPL-3.0-only

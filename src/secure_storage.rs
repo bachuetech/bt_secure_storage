@@ -5,8 +5,10 @@ use keyring::Entry;
 
 // AES-GCM with 256-bit key
 use aes_gcm::{AeadCore, Aes256Gcm, Key, KeyInit, Nonce, aead::{Aead, OsRng}}; 
+use base91::{slice_decode, slice_encode};
+
 use pbkdf2::pbkdf2_hmac;
-use base64::{engine::general_purpose, Engine};
+//use base64::{engine::general_purpose, Engine};
 use whoami::username;
 
 use crate::hashing::get_hash_string_base64;
@@ -164,11 +166,11 @@ impl SecretCipher {
     /// * `key_str`: The password used for encryption.
     ///
     /// # Returns
-    /// A tuple containing the encrypted ciphertext as a base64-encoded string, and the random nonce as a base64-encoded string.    
+    /// A tuple containing the encrypted ciphertext as a base91-encoded string, and the random nonce as a base64-encoded string.    
     pub fn encrypt_secret(&self, secret: &str, key_str: &str) -> Result<(String, String),Box< dyn Error>> {
         // Hash the key string to get a 32-byte key
         let key_hash: &[u8; 32] = &self.derive_key(key_str);
-        let key: &Key<Aes256Gcm>  = key_hash.into(); //aes_gcm::aead::generic_array::GenericArray::from_slice(&key_hash); //Key::<Aes256Gcm>::from_slice(&key_hash);
+        let key: &Key<Aes256Gcm>  = key_hash.into(); 
         let cipher = Aes256Gcm::new(key);
 
         // Generate a random 12-byte nonce
@@ -182,27 +184,29 @@ impl SecretCipher {
         };
 
         // Return base64-encoded ciphertext and nonce
-        Ok( ( general_purpose::URL_SAFE_NO_PAD.encode(&ciphertext),  general_purpose::URL_SAFE_NO_PAD.encode(&nonce) ) )
+        //Ok( ( general_purpose::URL_SAFE_NO_PAD.encode(&ciphertext),  general_purpose::URL_SAFE_NO_PAD.encode(&nonce) ) ) 
+        // Return base91-encoded ciphertext and nonce
+        Ok( ( String::from_utf8(slice_encode(&ciphertext))?,  String::from_utf8(slice_encode(&nonce))? ) ) 
     }
 
     /// Decrypts the provided ciphertext using the derived key and random nonce.
     ///
     /// # Parameters
-    /// * `ciphertext_b64`: The base64-encoded ciphertext to decrypt.
-    /// * `nonce_b64`: The base64-encoded nonce used for decryption.
+    /// * `ciphertext_b64`: The base91-encoded ciphertext to decrypt.
+    /// * `nonce_b91`: The base91-encoded nonce used for decryption.
     /// * `key_str`: The password used for decryption.
     ///
     /// # Returns
     /// A result containing the decrypted plaintext as a string, or an error if the operation failed.    
-    pub fn decrypt_secret(&self, ciphertext_b64: &str, nonce_b64: &str, key_str: &str) -> Result<String, Box< dyn Error>>{
+    pub fn decrypt_secret(&self, ciphertext_b91: &str, nonce_b91: &str, key_str: &str) -> Result<String, Box< dyn Error>>{
         let key_hash: &[u8; 32] = &self.derive_key(key_str); 
         let key: &Key<Aes256Gcm> = key_hash.into(); 
         let cipher = Aes256Gcm::new(key);
 
-        let nonce_bytes = general_purpose::URL_SAFE_NO_PAD.decode(nonce_b64)?;
+        let nonce_bytes = slice_decode(nonce_b91.as_bytes()); //general_purpose::URL_SAFE_NO_PAD.decode(nonce_b64)?;
         let nonce = Nonce::from_slice(&nonce_bytes);
 
-        let ciphertext = general_purpose::URL_SAFE_NO_PAD.decode(ciphertext_b64)?;
+        let ciphertext = slice_decode(ciphertext_b91.as_bytes()); //general_purpose::URL_SAFE_NO_PAD.decode(ciphertext_b64)?;
         match cipher.decrypt(nonce, ciphertext.as_ref()){
             Ok(plaintext) => Ok(String::from_utf8(plaintext)?),
             Err(e) => {
