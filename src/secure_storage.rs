@@ -139,7 +139,7 @@ impl SecretCipher {
         let cipher_salt = if s.is_ok() { 
                                         s.unwrap() 
                                     } else {
-                                        let new_salt = generate_url_safe_string(32);
+                                        let new_salt = generate_url_safe_string(12);
                                         sv.store_secret(SALT, &new_salt).expect(&get_fatal!("new","Cannot securely save encryption data!"));
                                         new_salt
                                     };

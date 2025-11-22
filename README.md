@@ -39,6 +39,8 @@ This library provides a simple secret vault and encryption system using the whoa
     * Update dependencies
 * 0.2.0
     * Change to Base91 encoding from Based64 to reduce overhead in encrypt_secret
+* 0.2.1
+    * Change Salt from 32 to 12 bytes
 
 ## License
 GPL-3.0-only
